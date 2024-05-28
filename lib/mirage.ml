@@ -298,6 +298,7 @@ let delay_startup =
           | `Unix | `MacOSX -> "Unix_os.Time"
           | `Xen | `Qubes -> "Xen_os.Time"
           | `Virtio | `Hvt | `Spt | `Muen | `Genode -> "Solo5_os.Time"
+          | `Firecracker | `QEMU -> "Unikraft_os.Time"
         in
         code ~pos:__POS__ "%s.sleep_ns (Duration.of_sec %s)" modname delay_key
     | _ -> Misc.connect_err "delay_startup" 1
@@ -316,6 +317,7 @@ let os_of_target i =
   | #Key.mode_solo5 -> "Solo5_os"
   | #Key.mode_unix -> "Unix_os"
   | #Key.mode_xen -> "Xen_os"
+  | #Key.mode_unikraft -> "Unikraft_os"
 
 module Project = struct
   let name = "mirage"

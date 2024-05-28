@@ -338,7 +338,7 @@ module Solo5 = struct
 |}
 
   let solo5_abi = function
-    | #Key.mode_unix -> assert false
+    | #Key.mode_unix | #Key.mode_unikraft -> assert false
     | #Key.mode_xen -> "xen"
     | `Virtio -> "virtio"
     | `Hvt -> "hvt"
@@ -389,9 +389,25 @@ module Solo5 = struct
     Install.v ~bin:[ (v out, v out) ] ~etc:additional_artifacts ()
 end
 
+module Unikraft = struct
+  type t = [ `Firecracker | `QEMU ]
+
+  let configure _ =
+    Printf.printf "Unikraft.configure";
+    Action.ok ()
+
+  let cast _ = assert false
+  let dune _ = assert false
+  let build_context ?build_dir:_ _ = assert false
+  let context_name _ = assert false
+  let packages _ = assert false
+  let install _ = assert false
+end
+
 let choose : Key.mode -> (module TARGET) = function
   | #Solo5.t -> (module Solo5)
   | #Unix.t -> (module Unix)
+  | #Unikraft.t -> (module Unikraft)
 
 let dune i =
   let target = Info.get i Key.target in
