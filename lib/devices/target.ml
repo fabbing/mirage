@@ -396,12 +396,53 @@ module Unikraft = struct
     Printf.printf "Unikraft.configure";
     Action.ok ()
 
-  let cast _ = assert false
-  let dune _ = assert false
+  let cast = function #t as t -> t | _ -> invalid_arg "not a Unikraft target."
+
+  let dune i =
+    let libraries = Info.libraries i in
+    let main = Fpath.to_string (main i) in
+    let target = Info.get i Key.target in
+    let pp_list f = Dune.compact_list f in
+    Dune.stanzaf
+{|
+(executable
+ (enabled_if (= %%{context_name} "%s"))
+ (name program)
+ (flags -without-runtime)
+ (modes
+  (native object))
+ (foreign_stubs
+  (language c)
+  (names stubs)))
+|}
+      (context_name i) main (pp_list "libraries") libraries
+
   let build_context ?build_dir:_ _ = assert false
   let context_name _ = assert false
-  let packages _ = assert false
-  let install _ = assert false
+
+  let packages _ =
+    [
+      Functoria.package ~min:"0.0.1" ~max:"0.0.1" ~scope:`Switch ~build:true
+        "ocaml-unikraft";
+      Functoria.package ~min:"0.0.1" ~max:"0.0.1" "mirage-unikraft";
+    ]
+  
+  let ext = function
+    | `Firecracker -> ".fc"
+    | `QEMU -> ".qemu"
+    | _ -> invalid_arg "Unikraft bindings only defined for Unikraft targets"
+  
+  let out i =
+    let target = Info.get i Key.target in
+    let public_name =
+      match Info.output i with None -> Info.name i | Some o -> o
+    in
+    public_name ^ ext target
+
+  let install i =
+    let out = out i in
+    let open Fpath in
+    Install.v ~bin:[ (v out, v out) ] ()
 end
 
 let choose : Key.mode -> (module TARGET) = function
