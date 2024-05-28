@@ -6,8 +6,12 @@ let mclock = typ MCLOCK
 
 let default_monotonic_clock =
   let packages_v =
-    Key.(if_ is_unix)
-      [ package ~min:"4.1.0" ~max:"5.0.0" "mirage-clock-unix" ]
-      [ package ~min:"4.2.0" ~max:"5.0.0" "mirage-clock-solo5" ]
+    let open Key in
+    match_ (value target) @@ function
+    | #mode_unix -> [ package ~min:"4.1.0" ~max:"5.0.0" "mirage-clock-unix" ]
+    | #mode_solo5 | #mode_xen ->
+        [ package ~min:"4.2.0" ~max:"5.0.0" "mirage-clock-solo5" ]
+    | #mode_unikraft ->
+        [ package ~min:"4.2.0" ~max:"5.0.0" "mirage-clock-unikraft" ]
   in
   impl ~packages_v "Mclock" mclock
