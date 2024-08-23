@@ -423,6 +423,10 @@ module Unikraft = struct
   (name %s)
   (host default)
   (toolchain unikraft_x86_64)
+  (env
+   (_
+    (env-vars
+     ("LWT_DISCOVER_ARGUMENTS" "--use-libev false --libev-default false"))))
   (merlin)
   (disable_dynamically_linked_foreign_archives true)
 ))
