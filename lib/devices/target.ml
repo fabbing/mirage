@@ -419,7 +419,8 @@ module Unikraft = struct
     let build_context =
       Dune.stanzaf
         {|
-(context (default
+(context
+ (default
   (name %s)
   (host default)
   (toolchain unikraft_x86_64)
@@ -428,8 +429,7 @@ module Unikraft = struct
     (env-vars
      ("LWT_DISCOVER_ARGUMENTS" "--use-libev false --libev-default false"))))
   (merlin)
-  (disable_dynamically_linked_foreign_archives true)
-))
+  (disable_dynamically_linked_foreign_archives true)))
 |}
         (context_name i)
     in
