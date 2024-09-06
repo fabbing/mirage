@@ -415,7 +415,13 @@ module Unikraft = struct
   let packages target = build_packages @ backend_packages target
   let context_name _ = "unikraft"
 
+  let unikraft_abi = function
+    | #Key.mode_unix | #Key.mode_solo5 | #Key.mode_xen -> assert false
+    | `Firecracker -> "firecracker"
+    | `QEMU -> "qemu"
+
   let build_context ?build_dir:_ i =
+    let target = Info.get i Key.target in
     let build_context =
       Dune.stanzaf
         {|
@@ -426,12 +432,16 @@ module Unikraft = struct
   (toolchain unikraft_x86_64)
   (env
    (_
+    (flags :standard -cclib "-z unikraft-backend=%s")
+    (c_flags :standard -z unikraft-backend=%s)
     (env-vars
      ("LWT_DISCOVER_ARGUMENTS" "--use-libev false --libev-default false"))))
   (merlin)
   (disable_dynamically_linked_foreign_archives true)))
 |}
         (context_name i)
+        (unikraft_abi target)
+        (unikraft_abi target)
     in
     [ build_context ]
 
@@ -462,11 +472,6 @@ module Unikraft = struct
   (copy %s.exe %%{target})))
 |}
       out (context_name i) main main
-
-  let unikraft_abi = function
-    | #Key.mode_unix | #Key.mode_solo5 | #Key.mode_xen -> assert false
-    | `Firecracker -> "firecracker"
-    | `QEMU -> "qemu"
 
   let flags =
     (* Disable "70 [missing-mli] Missing interface file." as we are only
