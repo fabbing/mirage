@@ -482,7 +482,6 @@ module Unikraft = struct
   let main i =
     let libraries = Info.libraries i in
     let main = Fpath.to_string (main i) in
-    let target = Info.get i Key.target in
     let pp_list f = Dune.compact_list f in
     Dune.stanzaf
     {|
@@ -491,14 +490,13 @@ module Unikraft = struct
  (name %s)
  (modes (native exe))
  (libraries %a)
- (link_flags %a -cclib "-z unikraft-backend=%s")
+ (link_flags %a)
 )
 |}
       (context_name i)
       main (pp_list "libraries")
       libraries (pp_list "link_flags")
       flags
-      (unikraft_abi target)
 
   let dune i = [ main i; rename i ]
 
