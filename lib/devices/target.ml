@@ -399,7 +399,7 @@ module Unikraft = struct
   let build_packages =
     [
       Functoria.package ~min:"0.0.1" ~max:"1.0.0" ~scope:`Switch ~build:true
-        "ocaml-unikraft-x86_64";
+        "ocaml-unikraft";
       Functoria.package ~min:"0.0.1" ~max:"1.0.0" "mirage-unikraft";
     ]
 
@@ -407,10 +407,10 @@ module Unikraft = struct
     match target with
     | `Firecracker ->
         [ Functoria.package ~min:"0.0.1" ~max:"1.0.0" ~scope:`Switch ~build:true
-          "ocaml-unikraft-backend-fc-x86_64" ]
+          "ocaml-unikraft-backend-fc" ]
     | `QEMU ->
         [ Functoria.package ~min:"0.0.1" ~max:"1.0.0" ~scope:`Switch ~build:true
-          "ocaml-unikraft-backend-qemu-x86_64" ]
+          "ocaml-unikraft-backend-qemu" ]
 
   let packages target = build_packages @ backend_packages target
   let context_name _ = "unikraft"
@@ -429,7 +429,7 @@ module Unikraft = struct
  (default
   (name %s)
   (host default)
-  (toolchain unikraft_x86_64)
+  (toolchain unikraft)
   (env
    (_
     (flags :standard -cclib "-z unikraft-backend=%s")
