@@ -398,18 +398,18 @@ module Unikraft = struct
 
   let build_packages =
     [
-      Functoria.package ~min:"0.0.1" ~max:"1.0.0" ~scope:`Switch ~build:true
+      Functoria.package ~min:"0.0.1" ~max:"2.0.0" ~scope:`Switch ~build:true
         "ocaml-unikraft";
-      Functoria.package ~min:"0.0.1" ~max:"1.0.0" "mirage-unikraft";
+      Functoria.package ~min:"0.0.1" ~max:"2.0.0" "mirage-unikraft";
     ]
 
   let backend_packages target =
     match target with
     | `Firecracker ->
-        [ Functoria.package ~min:"0.0.1" ~max:"1.0.0" ~scope:`Switch ~build:true
+        [ Functoria.package ~min:"0.0.1" ~max:"2.0.0" ~scope:`Switch ~build:true
           "ocaml-unikraft-backend-fc" ]
     | `QEMU ->
-        [ Functoria.package ~min:"0.0.1" ~max:"1.0.0" ~scope:`Switch ~build:true
+        [ Functoria.package ~min:"0.0.1" ~max:"2.0.0" ~scope:`Switch ~build:true
           "ocaml-unikraft-backend-qemu" ]
 
   let packages target = build_packages @ backend_packages target
