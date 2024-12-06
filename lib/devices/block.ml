@@ -79,7 +79,7 @@ let block_conf file =
     | #Key.mode_unix ->
         [ package ~min:"2.12.0" ~max:"3.0.0" "mirage-block-unix" ]
     | #Key.mode_unikraft ->
-        [ package ~min:"0.0.1" ~max:"0.0.1" "mirage-block-unikraft" ]
+        [ package ~min:"0.0.1" ~max:"2.0.0" "mirage-block-unikraft" ]
   in
   let configure _ =
     let (_ : block_t) = make_block_t file in
