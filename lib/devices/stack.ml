@@ -105,13 +105,12 @@ let generic_ipv4v6_stack p ?group ?ipv6_config ?ipv4_config
   in
   keyed_direct_stackv4v6 ~ipv4_only ~ipv6_only ?tcp tap e a i4 i6
 
-let socket_extra_stackv4v6 ?extra_packages_v ?(group = "") () =
+let socket_extra_stackv4v6 ?(group = "") ?(extra_packages_v = Key.pure []) () =
   let v4key = Runtime_arg.V4.network ~group Ipaddr.V4.Prefix.global in
   let v6key = Runtime_arg.V6.network ~group None in
   let ipv4_only = Runtime_arg.ipv4_only ~group () in
   let ipv6_only = Runtime_arg.ipv6_only ~group () in
   let packages_v = right_tcpip_library ~sublibs:[ "stack-socket" ] "tcpip" in
-  let extra_packages_v = Option.value ~default:(Key.pure []) extra_packages_v in
   let packages_v = Key.(pure ( @ ) $ packages_v $ extra_packages_v) in
   let extra_deps =
     [
