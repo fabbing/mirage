@@ -25,8 +25,9 @@ type stackv4v6 = STACKV4V6
 
 let stackv4v6 = typ STACKV4V6
 
-let stackv4v6_direct_conf () =
+let stackv4v6_direct_conf ?(extra_packages_v = Key.pure [])  () =
   let packages_v = right_tcpip_library ~sublibs:[ "stack-direct" ] "tcpip" in
+  let packages_v = Key.(pure ( @ ) $ packages_v $ extra_packages_v) in
   let connect _i modname = function
     | [ _t; _r; interface; ethif; arp; ipv4v6; icmpv4; udp; tcp ] ->
         code ~pos:__POS__ "%s.connect %s %s %s %s %s %s %s" modname interface
@@ -63,11 +64,12 @@ let direct_stackv4v6 ?group ?(mclock = default_monotonic_clock)
   $
   match tcp with None -> direct_tcp ~mclock ~random ~time ip | Some tcp -> tcp
 
-let keyed_direct_stackv4v6 ?(mclock = default_monotonic_clock)
-    ?(random = default_random) ?(time = default_time) ?tcp ~ipv4_only ~ipv6_only
-    network eth arp ipv4 ipv6 =
+let keyed_direct_extra_stackv4v6 ?extra_packages_v
+    ?(mclock = default_monotonic_clock) ?(random = default_random)
+    ?(time = default_time) ?tcp ~ipv4_only ~ipv6_only network eth arp ipv4 ipv6
+    =
   let ip = keyed_ipv4v6 ~ipv4_only ~ipv6_only ipv4 ipv6 in
-  stackv4v6_direct_conf ()
+  stackv4v6_direct_conf ?extra_packages_v ()
   $ time
   $ random
   $ network
@@ -79,6 +81,11 @@ let keyed_direct_stackv4v6 ?(mclock = default_monotonic_clock)
   $
   match tcp with None -> direct_tcp ~mclock ~random ~time ip | Some tcp -> tcp
 
+let keyed_direct_stackv4v6 ?mclock ?random ?time ?tcp ~ipv4_only ~ipv6_only
+    network eth arp ipv4 ipv6 =
+  keyed_direct_extra_stackv4v6 ?mclock ?random ?time ?tcp ~ipv4_only ~ipv6_only
+    network eth arp ipv4 ipv6
+
 let static_ipv4v6_stack ?group ?ipv6_config ?ipv4_config ?(arp = arp ?time:None)
     ?tcp tap =
   let ipv4_only = Runtime_arg.ipv4_only ?group ()
@@ -89,8 +96,8 @@ let static_ipv4v6_stack ?group ?ipv6_config ?ipv4_config ?(arp = arp ?time:None)
   let i6 = create_ipv6 ?group ?config:ipv6_config tap e in
   keyed_direct_stackv4v6 ~ipv4_only ~ipv6_only ?tcp tap e a i4 i6
 
-let generic_ipv4v6_stack p ?group ?ipv6_config ?ipv4_config
-    ?(arp = arp ?time:None) ?tcp tap =
+let generic_extra_ipv4v6_stack p ?group ?extra_packages_v ?ipv6_config
+    ?ipv4_config ?(arp = arp ?time:None) ?tcp tap =
   let ipv4_only = Runtime_arg.ipv4_only ?group ()
   and ipv6_only = Runtime_arg.ipv6_only ?group () in
   let e = ethif tap in
@@ -103,7 +110,8 @@ let generic_ipv4v6_stack p ?group ?ipv6_config ?ipv4_config
   let i6 =
     keyed_create_ipv6 ?group ?config:ipv6_config ~no_init:ipv4_only tap e
   in
-  keyed_direct_stackv4v6 ~ipv4_only ~ipv6_only ?tcp tap e a i4 i6
+  keyed_direct_extra_stackv4v6 ?extra_packages_v ~ipv4_only ~ipv6_only ?tcp tap
+    e a i4 i6
 
 let socket_extra_stackv4v6 ?(group = "") ?(extra_packages_v = Key.pure []) () =
   let v4key = Runtime_arg.V4.network ~group Ipaddr.V4.Prefix.global in
@@ -134,19 +142,20 @@ let generic_stackv4v6 ?group ?ipv6_config ?ipv4_config
   let choose target net dhcp =
     match (target, net, dhcp) with
     | `Qubes, _, _ -> `Qubes
-    | `QEMU, Some `Host, _ | `Firecracker, Some `Host, _ -> `SocketLwIP
     | _, Some `Host, _ -> `Socket
     | _, _, true -> `Dhcp
     | (`Unix | `MacOSX), None, false -> `Socket
     | _, _, _ -> `Static
+  and extra_packages target net =
+    match (target, net) with
+    | `QEMU, Some `Host | `Firecracker, Some `Host ->
+        [ package ~scope:`Switch "ocaml-unikraft-option-lwip" ]
+    | `QEMU, _ | `Firecracker, _ ->
+        [ package ~scope:`Switch "ocaml-unikraft-option-ocaml-net-stack" ]
+    | _ -> []
   in
-  let unikraft_packages_v = Key.pure [ package "ocaml-unikraft-option-lwip" ] in
   let p = Key.(pure choose $ Key.(value target) $ net_key $ dhcp_key) in
+  let extra_packages_v = Key.(pure extra_packages $ value target $ net_key) in
   match_impl p
-    [
-      (`Socket, socket_stackv4v6 ?group ());
-      ( `SocketLwIP,
-        socket_extra_stackv4v6 ?group ~extra_packages_v:unikraft_packages_v ()
-      );
-    ]
-    ~default:(generic_ipv4v6_stack p ?group ?ipv6_config ?ipv4_config ?tcp tap)
+    [ (`Socket, socket_extra_stackv4v6 ?group ~extra_packages_v ()) ]
+    ~default:(generic_extra_ipv4v6_stack p ?group ~extra_packages_v ?ipv6_config ?ipv4_config ?tcp tap)
