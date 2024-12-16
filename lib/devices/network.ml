@@ -20,8 +20,10 @@ let network_conf ?(intf : string runtime_arg option) name =
     | #Key.mode_solo5 ->
         [ package ~min:"0.8.0" ~max:"0.9.0" "mirage-net-solo5" ]
     | #Key.mode_unikraft ->
-        [ package ~min:"0.0.1" ~max:"2.0.0" "mirage-net-unikraft" ]
-
+        [
+          package ~min:"0.0.1" ~max:"2.0.0" "mirage-net-unikraft";
+          package ~scope:`Switch "ocaml-unikraft-option-ocaml-net-stack";
+        ]
   in
   let connect _ modname = function
     | [] -> code ~pos:__POS__ "%s.connect %S" modname name
