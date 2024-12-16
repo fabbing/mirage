@@ -140,13 +140,15 @@ let generic_stackv4v6 ?group ?ipv6_config ?ipv4_config
     | (`Unix | `MacOSX), None, false -> `Socket
     | _, _, _ -> `Static
   in
-  let unikraft_packages_v = Key.pure [ package "ocaml-unikraft-option-lwip" ] in
+  let unikraft_lwip_package_v =
+    Key.pure [ package ~scope:`Switch "ocaml-unikraft-option-lwip" ]
+  in
   let p = Key.(pure choose $ Key.(value target) $ net_key $ dhcp_key) in
   match_impl p
     [
       (`Socket, socket_stackv4v6 ?group ());
       ( `SocketLwIP,
-        socket_extra_stackv4v6 ?group ~extra_packages_v:unikraft_packages_v ()
-      );
+        socket_extra_stackv4v6 ?group ~extra_packages_v:unikraft_lwip_package_v
+          () );
     ]
     ~default:(generic_ipv4v6_stack p ?group ?ipv6_config ?ipv4_config ?tcp tap)
