@@ -14,7 +14,7 @@ let pp_level ppf = function
   | None -> Fmt.string ppf "None"
 
 let default_reporter ?(level = Some Logs.Info) () =
-  let packages = [ package ~min:"2.0.0" ~max:"3.0.0" "mirage-logs" ] in
+  let packages = [ package ~min:"3.0.0" ~max:"4.0.0" "mirage-logs" ] in
   let runtime_args = [ Runtime_arg.v Runtime_arg.logs ] in
   let connect _ modname = function
     | [ logs ] ->
