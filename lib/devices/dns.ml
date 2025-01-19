@@ -1,9 +1,5 @@
 open Functoria.DSL
-open Time
-open Mclock
-open Pclock
 open Stack
-open Random
 open Misc
 open Happy_eyeballs
 
@@ -19,10 +15,6 @@ let generic_dns_client ?group ?timeout ?nameservers ?cache_size () =
   let runtime_args = Runtime_arg.[ v nameservers; v timeout; v cache_size ] in
   let connect _info modname = function
     | [
-        _random;
-        _time;
-        _mclock;
-        _pclock;
         stackv4v6;
         happy_eyeballs;
         nameservers;
@@ -32,13 +24,9 @@ let generic_dns_client ?group ?timeout ?nameservers ?cache_size () =
         code ~pos:__POS__
           {ocaml|%s.connect @[?nameservers:%s ?timeout:%s ?cache_size:%s@ (%s, %s)@]|ocaml}
           modname nameservers timeout cache_size stackv4v6 happy_eyeballs
-    | _ -> connect_err "generic_dns_client" 8
+    | _ -> connect_err "generic_dns_client" 5
   in
   impl ~runtime_args ~packages ~connect "Dns_client_mirage.Make"
-    (random
-    @-> time
-    @-> mclock
-    @-> pclock
-    @-> stackv4v6
+    (stackv4v6
     @-> happy_eyeballs
     @-> dns_client)
