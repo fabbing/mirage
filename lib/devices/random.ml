@@ -12,6 +12,6 @@ let default_random =
     (* here we could use the boot argument (--prng) to select the RNG! *)
     code ~pos:__POS__ "%s.initialize (module Mirage_crypto_rng.Fortuna)" modname
   in
-  impl ~packages ~connect "Mirage_crypto_rng_mirage2" random
+  impl ~packages ~connect "Mirage_crypto_rng_mirage" random
 
 let no_random = impl "Mirage_runtime" random
