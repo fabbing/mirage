@@ -5,7 +5,7 @@ open Misc
 type conduit = Conduit
 
 let conduit = typ Conduit
-let pkg = package ~min:"7.0.0" ~max:"8.0.0" "conduit-mirage"
+let pkg = package ~min:"8.0.0" ~max:"9.0.0" "conduit-mirage"
 
 let tcp =
   let packages = [ pkg ] in
