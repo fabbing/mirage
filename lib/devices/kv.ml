@@ -16,8 +16,8 @@ let crunch dirname =
   in
   let packages =
     [
-      package ~min:"3.0.0" ~max:"4.0.0" "mirage-kv-mem";
-      package ~min:"3.1.0" ~max:"4.0.0" ~build:true "crunch";
+      package ~min:"4.0.0" ~max:"5.0.0" "mirage-kv-mem";
+      package ~min:"4.0.0" ~max:"5.0.0" ~build:true "crunch";
     ]
   in
   let connect _ modname _ = code ~pos:__POS__ "%s.connect ()" modname in
