@@ -26,7 +26,7 @@ type ipv4_config = {
 
 (* convenience function for linking tcpip.unix for checksums *)
 let right_tcpip_library ?libs ~sublibs pkg =
-  let min = "8.2.0" and max = "9.0.0" in
+  let min = "9.0.0" and max = "10.0.0" in
   Key.pure [ package ~min ~max ?libs ~sublibs pkg ]
 
 let ipv4_keyed_conf ~ip ~gateway ~no_init () =
@@ -44,7 +44,7 @@ let ipv4_keyed_conf ~ip ~gateway ~no_init () =
 
 let ipv4_dhcp_conf =
   let packages =
-    [ package ~min:"1.3.0" ~max:"2.0.0" ~sublibs:[ "mirage" ] "charrua-client" ]
+    [ package ~min:"2.0.0" ~max:"3.0.0" ~sublibs:[ "mirage" ] "charrua-client" ]
   in
   let connect _ modname = function
     | [ network; ethernet; arp ] ->

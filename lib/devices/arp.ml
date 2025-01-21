@@ -8,7 +8,7 @@ let arpv4 = typ Arpv4
 
 let arp_conf =
   let packages =
-    [ package ~min:"3.0.0" ~max:"4.0.0" ~sublibs:[ "mirage" ] "arp" ]
+    [ package ~min:"4.0.0" ~max:"5.0.0" ~sublibs:[ "mirage" ] "arp" ]
   in
   let connect _ modname = function
     | [ eth ] -> code ~pos:__POS__ "%s.connect %s" modname eth
