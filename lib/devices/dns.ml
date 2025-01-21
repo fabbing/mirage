@@ -8,7 +8,7 @@ type dns_client = Dns_client
 let dns_client = typ Dns_client
 
 let generic_dns_client ?group ?timeout ?nameservers ?cache_size () =
-  let packages = [ package "dns-client-mirage" ~min:"9.0.0" ~max:"10.0.0" ] in
+  let packages = [ package "dns-client-mirage" ~min:"10.0.0" ~max:"11.0.0" ] in
   let nameservers = Runtime_arg.dns_servers ?group nameservers
   and timeout = Runtime_arg.dns_timeout ?group timeout
   and cache_size = Runtime_arg.dns_cache_size ?group cache_size in

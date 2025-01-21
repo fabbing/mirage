@@ -9,7 +9,7 @@ let happy_eyeballs = typ Happy_eyeballs
 let generic_happy_eyeballs ?group ?aaaa_timeout ?connect_delay ?connect_timeout
     ?resolve_timeout ?resolve_retries ?timer_interval () =
   let packages =
-    [ package "happy-eyeballs-mirage" ~min:"1.2.0" ~max:"2.0.0" ]
+    [ package "happy-eyeballs-mirage" ~min:"2.0.0" ~max:"3.0.0" ]
   in
   let aaaa_timeout = Runtime_arg.he_aaaa_timeout ?group aaaa_timeout
   and connect_delay = Runtime_arg.he_connect_delay ?group connect_delay
