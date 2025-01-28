@@ -8,8 +8,10 @@ let default_monotonic_clock =
   let packages_v =
     let open Key in
     match_ (value target) @@ function
-    | #mode_unix | #mode_unikraft ->
+    | #mode_unix ->
         [ package ~min:"4.1.0" ~max:"5.0.0" "mirage-clock-unix" ]
+    | #mode_unikraft ->
+        [ package ~min:"4.1.0" ~max:"5.0.0" "mirage-clock-unikraft" ]
     | #mode_solo5 | #mode_xen ->
         [ package ~min:"4.2.0" ~max:"5.0.0" "mirage-clock-solo5" ]
   in
