@@ -8,7 +8,7 @@ let no_mtime = impl "Mirage_runtime" mtime
 
 let impl sublib =
   let packages =
-    [ package ~min:"4.0.0" ~max:"5.0.0" ~sublibs:[ ""; sublib ] "mirage-mtime" ]
+    [ package ~min:"5.0.0" ~max:"6.0.0" ~sublibs:[ ""; sublib ] "mirage-mtime" ]
   in
   impl ~packages "Mirage_mtime" mtime
 
