@@ -65,7 +65,7 @@ type alpn_client = ALPN_client
 let alpn_client = typ ALPN_client
 
 let paf_client =
-  let packages = [ package "http-mirage-client" ~min:"0.0.1" ~max:"0.1.0" ] in
+  let packages = [ package "http-mirage-client" ~min:"0.0.9" ~max:"0.1.0" ] in
   let connect _ modname = function
     | [ _tcpv4v6; ctx ] ->
         code ~pos:__POS__ {ocaml|%s.connect %s|ocaml} modname ctx

@@ -6,7 +6,7 @@ let random = Functoria.job
 
 let default_random =
   let packages =
-    [ package ~min:"1.0.0" ~max:"2.0.0" "mirage-crypto-rng-mirage2" ]
+    [ package ~min:"2.0.0" ~max:"3.0.0" "mirage-crypto-rng-mirage" ]
   in
   let connect _ modname _ =
     (* here we could use the boot argument (--prng) to select the RNG! *)

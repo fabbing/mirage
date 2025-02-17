@@ -86,7 +86,7 @@ type ipv6_config = {
 (** Types for IP manual configuration. *)
 
 let ipv4_qubes_conf =
-  let packages = [ package ~min:"1.0.0" ~max:"2.0.0" "mirage-qubes-ipv4" ] in
+  let packages = [ package ~min:"2.0.0" ~max:"3.0.0" "mirage-qubes-ipv4" ] in
   let connect _ modname = function
     | [ db; etif; arp ] ->
         code ~pos:__POS__ "%s.connect@[@ %s@ %s@ %s@]" modname db etif arp

@@ -5,7 +5,7 @@ open Stack
 type syslog = SYSLOG
 
 let syslog = typ SYSLOG
-let pkg sublibs = [ package ~min:"0.4.0" ~max:"0.5.0" ~sublibs "logs-syslog" ]
+let pkg sublibs = [ package ~min:"0.5.0" ~max:"0.6.0" ~sublibs "logs-syslog" ]
 
 let syslog_udp_conf ?group () =
   let endpoint = Runtime_arg.syslog ?group None
@@ -87,7 +87,7 @@ let syslog_tls ?group stack kv = syslog_tls_conf ?group () $ stack $ kv
 let monitoring_conf ?group () =
   let monitor_host = Runtime_arg.monitor ?group None
   and hostname = Runtime_arg.monitor_hostname ?group () in
-  let packages = [ package ~min:"0.0.5" ~max:"0.1.0" "mirage-monitoring" ] in
+  let packages = [ package ~min:"0.0.6" ~max:"0.1.0" "mirage-monitoring" ] in
   let runtime_args = Runtime_arg.[ v monitor_host; v hostname ] in
   let connect _i modname = function
     | [ stack; name; monitor ] ->

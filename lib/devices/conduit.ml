@@ -16,7 +16,7 @@ let tcp =
   impl ~packages ~connect "Conduit_mirage.TCP" (stackv4v6 @-> conduit)
 
 let tls =
-  let packages = [ pkg; package ~min:"1.0.0" ~max:"2.0.0" "tls-mirage" ] in
+  let packages = [ pkg; package ~min:"2.0.0" ~max:"3.0.0" "tls-mirage" ] in
   let connect _ _ = function
     | [ stack ] -> code ~pos:__POS__ "Lwt.return %s@;" stack
     | _ -> connect_err "tls_conduit" 1
