@@ -98,7 +98,7 @@
     with [pkg-config]. Then every bindings uses [pkg-config] to configure their
     [CFLAGS] and [ocamlfind] to register
     {{:https://github.com/ocaml/opam-repository/blob/master/packages/zarith-xen/zarith-xen.1.7/files/mirage-install.sh#L20}
-      link-time predicates}, e.g. additional link time options like the name of
+     link-time predicates}, e.g. additional link time options like the name of
     the C archives. Finally, the final link step is done by querying ocamlfind
     (using the custom registered predicates) to link the list of dependencies'
     objects files with the result of OCam compiler's [--output-obj] option.
@@ -173,8 +173,8 @@ val no_ptime : ptime impl
 (** Disables the mirage-ptime implementation. *)
 
 val mock_ptime : ptime impl
-(** A ptime mock implementation where you can manually set the clock
-    via [Mirage_ptime_set]. *)
+(** A ptime mock implementation where you can manually set the clock via
+    [Mirage_ptime_set]. *)
 
 (** {2 Monotonic time} *)
 
@@ -191,8 +191,8 @@ val no_mtime : mtime impl
 (** Disables the mirage-mtime implementation. *)
 
 val mock_mtime : mtime impl
-(** A mtime mock implementation where you can manually set the clock
-    via [Mirage_mtime_set]. *)
+(** A mtime mock implementation where you can manually set the clock via
+    [Mirage_mtime_set]. *)
 
 (** {2 Log reporters} *)
 
@@ -203,9 +203,9 @@ val reporter : reporter typ
 (** Implementation of the log {!type:reporter} type. *)
 
 val default_reporter : ?level:Logs.level option -> unit -> reporter impl
-(** [default_reporter ?level ()] is the log reporter that prints log
-    messages to the console, with a timestamp as prefix. [level] is the default
-    log threshold. It is [Some Logs.Info] if not specified. *)
+(** [default_reporter ?level ()] is the log reporter that prints log messages to
+    the console, with a timestamp as prefix. [level] is the default log
+    threshold. It is [Some Logs.Info] if not specified. *)
 
 val no_reporter : reporter impl
 (** [no_reporter] disable log reporting. *)
@@ -353,10 +353,7 @@ val direct_kv_rw : string -> kv_rw impl
 val kv_rw_mem : unit -> kv_rw impl
 (** An in-memory key-value store using [mirage-kv-mem]. *)
 
-val chamelon :
-  program_block_size:int runtime_arg ->
-  block impl ->
-  kv_rw impl
+val chamelon : program_block_size:int runtime_arg -> block impl -> kv_rw impl
 (** [chamelon ~program_block_size] returns a {!kv_rw} filesystem which is an
     implementation of {{:https://github.com/littlefs-project/littlefs} littlefs}
     in OCaml. The [chamelon] device expects a {i block-device}.
@@ -527,11 +524,7 @@ type ipv6_config = {
 }
 (** Types for manual IPv6 configuration. *)
 
-val ipv4_of_dhcp :
-  network impl ->
-  ethernet impl ->
-  arpv4 impl ->
-  ipv4 impl
+val ipv4_of_dhcp : network impl -> ethernet impl -> arpv4 impl -> ipv4 impl
 (** Configure the interface via DHCP *)
 
 val create_ipv4 :
@@ -545,11 +538,7 @@ val create_ipv4 :
     override those supplied in the ipv4 configuration record, if that has been
     provided. *)
 
-val ipv4_qubes :
-  qubesdb impl ->
-  ethernet impl ->
-  arpv4 impl ->
-  ipv4 impl
+val ipv4_qubes : qubesdb impl -> ethernet impl -> arpv4 impl -> ipv4 impl
 (** Use a given initialized QubesDB to look up and configure the appropriate *
     IPv4 interface. *)
 
@@ -587,7 +576,6 @@ val tcp : 'a tcp typ
 (** Implementation of the [Tcpip.Tcp.S] signature. *)
 
 val tcpv4v6 : tcpv4v6 typ
-
 val direct_tcp : 'a ip impl -> 'a tcp impl
 
 val socket_tcpv4v6 :
@@ -656,12 +644,7 @@ val tcpv4v6_of_stackv4v6 : stackv4v6 impl -> tcpv4v6 impl
 type resolver
 
 val resolver : resolver typ
-
-val resolver_dns :
-  ?ns:string list ->
-  stackv4v6 impl ->
-  resolver impl
-
+val resolver_dns : ?ns:string list -> stackv4v6 impl -> resolver impl
 val resolver_unix_system : resolver impl
 
 (** {2 Happy-eyeballs} *)
@@ -754,28 +737,21 @@ val syslog_udp : ?group:string -> stackv4v6 impl -> syslog impl
 val syslog_tcp : ?group:string -> stackv4v6 impl -> syslog impl
 (** Emit log messages via TCP. *)
 
-val syslog_tls :
-  ?group:string ->
-  stackv4v6 impl ->
-  kv_ro impl ->
-  syslog impl
+val syslog_tls : ?group:string -> stackv4v6 impl -> kv_ro impl -> syslog impl
 (** Emit log messages via TLS, using the credentials (private key, certificate,
     trust anchor) provided in the KV_RO. *)
 
 (** {2 Monitoring} *)
-val monitoring :
-  ?group:string ->
-  stackv4v6 impl ->
-  job impl
+val monitoring : ?group:string -> stackv4v6 impl -> job impl
 (** Monitor metrics to a remote Influx host, also allow adjustments to log
-    sources and levels. The provided [stack] should not be publicly reachable. *)
+    sources and levels. The provided [stack] should not be publicly reachable.
+*)
 
 (** {2 Conduit configuration} *)
 
 type conduit
 
 val conduit : conduit typ
-
 val conduit_direct : ?tls:bool -> stackv4v6 impl -> conduit impl
 
 (** {2 Mimic devices}

@@ -3,7 +3,6 @@ open Functoria.DSL
 type sleep = job
 
 let sleep = Functoria.job
-
 let no_sleep = impl "Mirage_runtime" sleep
 
 let impl sublib =

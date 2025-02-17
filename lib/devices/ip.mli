@@ -57,18 +57,8 @@ val keyed_create_ipv6 :
   ethernet impl ->
   ipv6 impl
 
-val ipv4_of_dhcp :
-  network impl ->
-  ethernet impl ->
-  arpv4 impl ->
-  ipv4 impl
-
-val ipv4_qubes :
-  qubesdb impl ->
-  ethernet impl ->
-  arpv4 impl ->
-  ipv4 impl
-
+val ipv4_of_dhcp : network impl -> ethernet impl -> arpv4 impl -> ipv4 impl
+val ipv4_qubes : qubesdb impl -> ethernet impl -> arpv4 impl -> ipv4 impl
 val create_ipv4v6 : ?group:string -> ipv4 impl -> ipv6 impl -> ipv4v6 impl
 
 val keyed_ipv4v6 :

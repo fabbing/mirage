@@ -30,9 +30,7 @@ val docteur :
 type block_t = { filename : string; number : int }
 
 val all_blocks : (string, block_t) Hashtbl.t
-
 val chamelon : program_block_size:int runtime_arg -> (block -> Kv.rw) impl
-
 val tar_kv_rw : block impl -> Kv.rw impl
 
 val ccm_block :

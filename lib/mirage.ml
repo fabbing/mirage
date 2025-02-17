@@ -81,8 +81,7 @@ let docteur ?mode ?name ?output ?analyze ?branch ?extra_deps remote =
 let chamelon ~program_block_size block =
   Block.chamelon ~program_block_size $ block
 
-let tar_kv_rw block =
-  Block.tar_kv_rw block
+let tar_kv_rw block = Block.tar_kv_rw block
 
 type block = Block.block
 
@@ -207,8 +206,8 @@ type dns_client = Dns.dns_client
 
 let dns_client = Dns.dns_client
 
-let generic_dns_client ?group ?timeout ?nameservers ?cache_size
-    stackv4v6 happy_eyeballs =
+let generic_dns_client ?group ?timeout ?nameservers ?cache_size stackv4v6
+    happy_eyeballs =
   Dns.generic_dns_client ?group ?timeout ?nameservers ?cache_size ()
   $ stackv4v6
   $ happy_eyeballs
@@ -240,9 +239,7 @@ let paf_server ~port tcpv4v6 = Http.paf_server port $ tcpv4v6
 type alpn_client = Http.alpn_client
 
 let alpn_client = Http.alpn_client
-
-let paf_client tcpv4v6 mimic =
-  Http.paf_client $ tcpv4v6 $ mimic
+let paf_client tcpv4v6 mimic = Http.paf_client $ tcpv4v6 $ mimic
 
 type argv = Functoria.argv
 
@@ -270,9 +267,7 @@ let merge_git_clients ctx0 ctx1 = Git.git_merge_clients $ ctx0 $ ctx1
 let git_tcp tcpv4v6 ctx = Git.git_tcp $ tcpv4v6 $ ctx
 
 let git_ssh ?group ?authenticator ?key ?password tcpv4v6 ctx =
-  Git.git_ssh ?group ?authenticator ?key ?password ()
-  $ tcpv4v6
-  $ ctx
+  Git.git_ssh ?group ?authenticator ?key ?password () $ tcpv4v6 $ ctx
 
 let git_http ?group ?authenticator ?headers tcpv4v6 ctx =
   Git.git_http ?group ?authenticator ?headers () $ tcpv4v6 $ ctx
@@ -411,7 +406,15 @@ let register ?(argv = default_argv) ?(reporter = default_reporter ())
        instead of `.. job .. [ main ]`.";
   let first = [ runtime_args argv; ocaml_runtime ] in
   let reporter = if reporter == no_reporter then None else Some reporter in
-  let init = Some first ++ Some delay_startup ++ reporter ++ Some sleep ++ Some ptime ++ Some mtime ++ Some random in
+  let init =
+    Some first
+    ++ Some delay_startup
+    ++ reporter
+    ++ Some sleep
+    ++ Some ptime
+    ++ Some mtime
+    ++ Some random
+  in
   register ?init ?src name jobs
 
 let connect_err = Devices.Misc.connect_err

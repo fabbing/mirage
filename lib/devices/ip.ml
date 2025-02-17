@@ -55,8 +55,7 @@ let ipv4_dhcp_conf =
   impl ~packages ~connect "Dhcp_ipv4.Make"
     (network @-> ethernet @-> arpv4 @-> ipv4)
 
-let ipv4_of_dhcp net ethif arp =
-  ipv4_dhcp_conf $ net $ ethif $ arp
+let ipv4_of_dhcp net ethif arp = ipv4_dhcp_conf $ net $ ethif $ arp
 
 let keyed_create_ipv4 ?group ?config ~no_init etif arp =
   let network, gateway =
@@ -95,8 +94,7 @@ let ipv4_qubes_conf =
   impl ~packages ~connect "Qubesdb_ipv4.Make"
     (qubesdb @-> ethernet @-> arpv4 @-> ipv4)
 
-let ipv4_qubes db ethernet arp =
-  ipv4_qubes_conf $ db $ ethernet $ arp
+let ipv4_qubes db ethernet arp = ipv4_qubes_conf $ db $ ethernet $ arp
 
 let ipv6_conf ~ip ~gateway ~handle_ra ~no_init () =
   let packages_v = right_tcpip_library ~sublibs:[ "ipv6" ] "tcpip" in
@@ -122,9 +120,7 @@ let keyed_create_ipv6 ?group ?config ~no_init netif etif =
   let ip = Runtime_arg.V6.network ?group network
   and gateway = Runtime_arg.V6.gateway ?group gateway
   and handle_ra = Runtime_arg.V6.accept_router_advertisements ?group () in
-  ipv6_conf ~ip ~gateway ~handle_ra ~no_init ()
-  $ netif
-  $ etif
+  ipv6_conf ~ip ~gateway ~handle_ra ~no_init () $ netif $ etif
 
 let create_ipv6 ?group ?config netif etif =
   let network, gateway =
@@ -136,9 +132,7 @@ let create_ipv6 ?group ?config netif etif =
   and gateway = Runtime_arg.V6.gateway ?group gateway
   and handle_ra = Runtime_arg.V6.accept_router_advertisements ?group ()
   and no_init = Runtime_arg.ipv4_only ?group () in
-  ipv6_conf ~ip ~gateway ~handle_ra ~no_init ()
-  $ netif
-  $ etif
+  ipv6_conf ~ip ~gateway ~handle_ra ~no_init () $ netif $ etif
 
 let ipv4v6_conf ~ipv4_only ~ipv6_only () =
   let packages_v = right_tcpip_library ~sublibs:[ "stack-direct" ] "tcpip" in

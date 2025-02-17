@@ -55,8 +55,9 @@ let main ?pos ?packages ?packages_v ?runtime_args ?deps module_name ty =
     else
       match deps with
       | None | Some [] ->
-        print_endline "adding unit argument to 'start ()' (to delay execution)";
-        Some [ dep Job.noop ]
+          print_endline
+            "adding unit argument to 'start ()' (to delay execution)";
+          Some [ dep Job.noop ]
       | _ -> deps
   in
   impl ?packages ?packages_v ?runtime_args ?extra_deps ~connect module_name ty

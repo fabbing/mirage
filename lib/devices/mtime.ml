@@ -3,7 +3,6 @@ open Functoria.DSL
 type mtime = job
 
 let mtime = Functoria.job
-
 let no_mtime = impl "Mirage_runtime" mtime
 
 let impl sublib =
@@ -12,7 +11,5 @@ let impl sublib =
   in
   impl ~packages "Mirage_mtime" mtime
 
-let default_mtime =
-  if_impl Key.is_solo5 (impl "solo5") (impl "unix")
-
+let default_mtime = if_impl Key.is_solo5 (impl "solo5") (impl "unix")
 let mock_mtime = impl "mock"

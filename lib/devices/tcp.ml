@@ -18,8 +18,7 @@ let tcp_direct_func () =
   in
   impl ~packages_v ~connect "Tcp.Flow.Make" (ip @-> tcp)
 
-let direct_tcp ip =
-  tcp_direct_func () $ ip
+let direct_tcp ip = tcp_direct_func () $ ip
 
 let tcpv4v6_socket_conf ~ipv4_only ~ipv6_only ipv4_key ipv6_key =
   let v = Runtime_arg.v in

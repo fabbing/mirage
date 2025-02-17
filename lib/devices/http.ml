@@ -34,8 +34,7 @@ let cohttp_client =
   impl ~packages ~connect "Cohttp_mirage.Client.Make"
     (resolver @-> conduit @-> http_client)
 
-let cohttp_client resolver conduit =
-  cohttp_client $ resolver $ conduit
+let cohttp_client resolver conduit = cohttp_client $ resolver $ conduit
 
 let httpaf_server conduit =
   let packages = [ package "httpaf-mirage" ] in
