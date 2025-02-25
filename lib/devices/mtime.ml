@@ -11,5 +11,5 @@ let impl sublib =
   in
   impl ~packages "Mirage_mtime" mtime
 
-let default_mtime = if_impl Key.is_solo5 (impl "solo5") (impl "unix")
+let default_mtime = if_impl Key.is_unix (impl "unix") (impl "solo5")
 let mock_mtime = impl "mock"

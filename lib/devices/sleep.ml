@@ -11,4 +11,4 @@ let impl sublib =
   in
   impl ~packages "Mirage_sleep" sleep
 
-let default_sleep = if_impl Key.is_solo5 (impl "solo5") (impl "unix")
+let default_sleep = if_impl Key.is_unix (impl "unix") (impl "solo5")
