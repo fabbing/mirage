@@ -47,8 +47,8 @@ let (target_conv : mode Cmdliner.Arg.conv), target_doc_alts =
       ("qubes", `Qubes);
       ("genode", `Genode);
       ("spt", `Spt);
-      ("firecracker", `Firecracker);
-      ("qemu", `QEMU);
+      ("unikraft-firecracker", `Firecracker);
+      ("unikraft-qemu", `QEMU);
     ]
   in
   let parser, printer = Cmdliner.Arg.enum enum in
