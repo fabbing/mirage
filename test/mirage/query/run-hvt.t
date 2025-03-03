@@ -33,7 +33,7 @@ Query opam file
     "mirage-runtime" { ?monorepo & >= "4.9.0" & < "4.10.0" }
     "mirage-sleep" { ?monorepo & >= "4.0.0" & < "5.0.0" }
     "mirage-solo5" { ?monorepo & >= "0.10.0" & < "0.11.0" }
-    "ocaml-solo5" { build & >= "0.8.2" & < "1.0.0" }
+    "ocaml-solo5" { build & >= "0.8.2" & < "2.0.0" }
     "opam-monorepo" { build & >= "0.3.2" }
     "solo5" { build & >= "0.7.5" & < "0.10.0" }
   ]
@@ -67,7 +67,7 @@ Query packages
   "mirage-runtime" { ?monorepo & >= "4.9.0" & < "4.10.0" }
   "mirage-sleep" { ?monorepo & >= "4.0.0" & < "5.0.0" }
   "mirage-solo5" { ?monorepo & >= "0.10.0" & < "0.11.0" }
-  "ocaml-solo5" { build & >= "0.8.2" & < "1.0.0" }
+  "ocaml-solo5" { build & >= "0.8.2" & < "2.0.0" }
   "opam-monorepo" { build & >= "0.3.2" }
   "solo5" { build & >= "0.7.5" & < "0.10.0" }
 
