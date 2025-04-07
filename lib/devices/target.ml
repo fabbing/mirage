@@ -407,7 +407,7 @@ module Unikraft = struct
     match target with
     | `Firecracker ->
         [ Functoria.package ~min:"0.0.1" ~max:"2.0.0" ~scope:`Switch ~build:true
-          "ocaml-unikraft-backend-fc" ]
+          "ocaml-unikraft-backend-firecracker" ]
     | `QEMU ->
         [ Functoria.package ~min:"0.0.1" ~max:"2.0.0" ~scope:`Switch ~build:true
           "ocaml-unikraft-backend-qemu" ]
