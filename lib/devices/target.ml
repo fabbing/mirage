@@ -406,10 +406,10 @@ module Unikraft = struct
   let backend_packages target =
     match target with
     | `Firecracker ->
-        [ Functoria.package ~min:"1.0.0" ~max:"2.0.0" ~scope:`Switch ~build:true
+        [ Functoria.package ~min:"0.18.0" ~max:"0.19.0" ~scope:`Switch ~build:true
           "ocaml-unikraft-backend-firecracker" ]
     | `QEMU ->
-        [ Functoria.package ~min:"1.0.0" ~max:"2.0.0" ~scope:`Switch ~build:true
+        [ Functoria.package ~min:"0.18.0" ~max:"0.19.0" ~scope:`Switch ~build:true
           "ocaml-unikraft-backend-qemu" ]
 
   let packages target = build_packages @ backend_packages target
